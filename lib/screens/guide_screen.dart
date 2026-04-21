@@ -15,14 +15,14 @@ class GuideScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Mode d emploi debutant',
+                'Mode d emploi complet',
                 style: Theme.of(
                   context,
                 ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Cette application est pensee pour toi si tu ne connais rien a Docker. Tu peux suivre un parcours simple, pas a pas.',
+                'Objectif: te guider de debutant total a autonome Docker, sans verrouiller les ecrans.',
               ),
             ],
           ),
@@ -33,15 +33,24 @@ class GuideScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Docker en une phrase',
+                'Nouveaux concepts ajoutes',
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Docker sert a lancer une application de la meme maniere partout (ton PC, un serveur, le cloud) sans surprise de configuration.',
+                'En plus des bases (images, containers, volumes, compose), tu trouveras maintenant:',
               ),
+              const SizedBox(height: 6),
+              const Text('- Ports mapping (-p hote:container)'),
+              const Text('- Variables d environnement (-e, .env)'),
+              const Text('- Bind mounts vs volumes'),
+              const Text('- Multi-stage build'),
+              const Text('- Healthcheck'),
+              const Text('- Limites CPU/RAM'),
+              const Text('- Securite de base (user non-root)'),
+              const Text('- Compose profiles'),
             ],
           ),
         ),
@@ -51,7 +60,33 @@ class GuideScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Parcours recommande (45 min)',
+                'Comment naviguer',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Ouvre le Drawer (menu en haut a gauche). Tout est accessible librement.',
+              ),
+              const SizedBox(height: 8),
+              const Text('Sections utiles:'),
+              const SizedBox(height: 6),
+              const Text('1. Objectif quotidien: suivre ton avancee du jour.'),
+              const Text('2. Parcours recommande: checklist non bloquante.'),
+              const Text('3. Favoris: garder tes cartes importantes.'),
+              const Text('4. Recherche globale: retrouver vite un terme.'),
+              const Text('5. Statistiques: progression + badges.'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Parcours conseille (version enrichie)',
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
@@ -60,27 +95,31 @@ class GuideScreen extends StatelessWidget {
               const _StepLine(
                 index: 1,
                 text:
-                    'Lis Concepts Docker en premier pour comprendre le vocabulaire de base.',
+                    'Regle ton objectif quotidien (3 actions/jour pour commencer).',
               ),
               const _StepLine(
                 index: 2,
                 text:
-                    'Passe ensuite aux Commandes Docker et ouvre chaque fiche detail.',
+                    'Lis les concepts de base puis les nouveaux concepts avances.',
               ),
               const _StepLine(
                 index: 3,
                 text:
-                    'Fais le Quiz pour verifier ce que tu as retenu et lire les explications.',
+                    'Passe aux commandes de base puis debug/inspection (inspect, stats, logs).',
               ),
               const _StepLine(
                 index: 4,
-                text:
-                    'Teste un ou deux Defis pratiques pour passer de la theorie a la pratique.',
+                text: 'Fais le quiz enrichi pour valider les nouveaux themes.',
               ),
               const _StepLine(
                 index: 5,
                 text:
-                    'Utilise le Glossaire des que tu bloques sur un terme technique.',
+                    'Enchaine les defis pratiques (env, ports, reseau, healthcheck, profiles).',
+              ),
+              const _StepLine(
+                index: 6,
+                text:
+                    'Utilise glossaire/recherche/favoris pour consolider les acquis.',
               ),
             ],
           ),
@@ -91,20 +130,14 @@ class GuideScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'Bonnes pratiques pour debuter',
+                'Important',
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
-              const Text('1. Avance doucement: 1 concept = 1 exemple concret.'),
-              const SizedBox(height: 6),
               const Text(
-                '2. Si une commande te parait abstraite, lis le bloc "Quand l utiliser".',
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                '3. Tu n as pas besoin de tout memoriser: l objectif est de comprendre la logique globale.',
+                'Aucun ecran n est verrouille. Tu peux ouvrir directement n importe quelle section. Le parcours reste un guide, pas une contrainte.',
               ),
             ],
           ),

@@ -4,97 +4,203 @@ const List<DockerConcept> mockDockerConcepts = <DockerConcept>[
   DockerConcept(
     id: 'images',
     title: 'Images',
-    summary: 'Le blueprint d\'une application et de son environnement.',
+    summary: 'Template immutable d une application.',
     description:
-        'Une image Docker est une base immuable qui contient tout ce qu\'il faut pour lancer une application: code, dépendances et configuration.',
+        'Une image Docker contient le code, les dependances et la configuration de base. Elle ne change pas une fois construite.',
     keyPoints: <String>[
-      'Versionnable avec des tags (ex: :latest, :1.0.0).',
-      'Se construit depuis un Dockerfile.',
-      'Une image peut servir à créer plusieurs containers.',
+      'Versionnable avec des tags (ex: latest, 1.0.0).',
+      'Construite a partir d un Dockerfile.',
+      'Une image peut lancer plusieurs containers.',
     ],
     beginnerAnalogy:
-        'Pense a une image comme une recette de cuisine complete que tu peux reutiliser.',
+        'Une image est comme une recette de cuisine en lecture seule.',
     whenToUse:
-        'Tu utilises une image quand tu veux distribuer ton application de facon stable et identique partout.',
+        'Quand tu veux distribuer la meme base applicative partout sans ecart.',
   ),
   DockerConcept(
     id: 'containers',
     title: 'Containers',
-    summary: 'Instance en cours d\'exécution d\'une image Docker.',
+    summary: 'Instance en execution d une image.',
     description:
-        'Un container isole une application et s\'exécute de manière reproductible sur n\'importe quelle machine compatible Docker.',
+        'Le container execute concretement l application a partir de l image, avec isolation des processus et reproductibilite.',
     keyPoints: <String>[
-      'Démarrage rapide et léger.',
-      'Isolation des processus.',
-      'Peut être arrêté, supprimé, relancé facilement.',
+      'Demarrage rapide.',
+      'Isolation par processus.',
+      'Suppression/recreation facile.',
     ],
     beginnerAnalogy:
-        'Le container est le plat cuisine a partir de la recette (image).',
-    whenToUse:
-        'Tu lances un container quand tu veux faire tourner concretement ton application.',
+        'Le container est le plat cuisine a partir de la recette image.',
+    whenToUse: 'Quand tu veux faire tourner ton service reellement.',
   ),
   DockerConcept(
     id: 'volumes',
     title: 'Volumes',
-    summary: 'Mécanisme de persistance des données hors container.',
+    summary: 'Persistance des donnees hors container.',
     description:
-        'Les volumes Docker permettent de conserver les données même si le container est supprimé, ce qui est essentiel pour les bases de données et fichiers utilisateurs.',
+        'Un volume garde les donnees meme si le container est supprime. C est indispensable pour les bases de donnees et uploads.',
     keyPoints: <String>[
-      'Découplent données et cycle de vie du container.',
-      'Partage possible entre plusieurs containers.',
-      'Pratique pour backup et migration.',
+      'Decouple donnees et cycle de vie du container.',
+      'Partage possible entre containers.',
+      'Backup plus simple.',
     ],
-    beginnerAnalogy:
-        'Le volume est un disque dur externe branche a ton container.',
-    whenToUse:
-        'Utilise un volume des que tu as des donnees a conserver (db, uploads, fichiers).',
+    beginnerAnalogy: 'Un volume est un disque externe branche au container.',
+    whenToUse: 'Des que des donnees doivent survivre aux redeploiements.',
+  ),
+  DockerConcept(
+    id: 'bind_mounts',
+    title: 'Bind Mounts',
+    summary: 'Montage direct d un dossier hote dans le container.',
+    description:
+        'Le bind mount mappe un chemin local vers un chemin container. Tres pratique en developpement pour voir les changements en direct.',
+    keyPoints: <String>[
+      'Ideal en dev local.',
+      'Dependant de l arborescence machine.',
+      'Moins portable qu un volume.',
+    ],
+    beginnerAnalogy: 'Comme partager un dossier Dropbox entre deux machines.',
+    whenToUse: 'Quand tu developpes et veux editer le code sans rebuild.',
   ),
   DockerConcept(
     id: 'networks',
     title: 'Networks',
-    summary: 'Communication contrôlée entre containers.',
+    summary: 'Communication controlee entre containers.',
     description:
-        'Les réseaux Docker permettent de connecter des services entre eux (API, base de données, cache) tout en contrôlant l\'exposition vers l\'extérieur.',
+        'Les reseaux Docker permettent aux services de dialoguer par nom et d isoler proprement les flux internes.',
     keyPoints: <String>[
-      'Bridge par défaut en local.',
-      'Isolation de groupes de services.',
-      'DNS interne entre containers sur le même réseau.',
+      'Bridge par defaut.',
+      'Isolation entre groupes de services.',
+      'Resolution DNS interne.',
+    ],
+    beginnerAnalogy: 'Un reseau Docker est un quartier prive pour services.',
+    whenToUse: 'Quand app, db, cache doivent communiquer proprement.',
+  ),
+  DockerConcept(
+    id: 'ports_mapping',
+    title: 'Ports Mapping',
+    summary: 'Expose un port container vers l exterieur.',
+    description:
+        'Le mapping de ports (-p hote:container) rend un service accessible depuis ton poste ou un autre systeme.',
+    keyPoints: <String>[
+      'Format courant: -p 8080:80.',
+      'Sans mapping, service non expose.',
+      'Attention aux conflits de ports.',
     ],
     beginnerAnalogy:
-        'Le reseau est un mini quartier prive ou les services se parlent.',
-    whenToUse:
-        'Tu crées un reseau quand plusieurs containers doivent communiquer entre eux.',
+        'Comme brancher un adaptateur entre une prise interne et externe.',
+    whenToUse: 'Quand tu dois acceder au service depuis ton navigateur.',
+  ),
+  DockerConcept(
+    id: 'env_vars',
+    title: 'Variables d environnement',
+    summary: 'Configuration dynamique sans recompiler.',
+    description:
+        'Les variables d environnement permettent d injecter des parametres (URL DB, mode debug, port) au demarrage.',
+    keyPoints: <String>[
+      'Passees via -e ou fichier .env.',
+      'Separent config et code.',
+      'Ne pas stocker les secrets en clair.',
+    ],
+    beginnerAnalogy: 'Comme des interrupteurs de configuration au lancement.',
+    whenToUse: 'Pour adapter l app selon dev, test, production.',
   ),
   DockerConcept(
     id: 'dockerfile',
     title: 'Dockerfile',
-    summary: 'Recette textuelle pour construire une image.',
+    summary: 'Recette de construction d image.',
     description:
-        'Le Dockerfile décrit étape par étape comment assembler l\'image: image de base, installation, copie de fichiers, commande de lancement.',
+        'Le Dockerfile definit les etapes de build: image de base, dependances, copie de fichiers, commande de lancement.',
     keyPoints: <String>[
-      'Utilise des instructions (FROM, RUN, COPY, CMD...).',
-      'Facilite l\'automatisation CI/CD.',
-      'Permet un build reproductible.',
+      'Instructions FROM/RUN/COPY/CMD/ENTRYPOINT.',
+      'Cache de build par couche.',
+      'Automatisation CI/CD.',
+    ],
+    beginnerAnalogy: 'Fiche de fabrication de ton image logicielle.',
+    whenToUse: 'Quand tu veux un build reproductible et versionne.',
+  ),
+  DockerConcept(
+    id: 'multi_stage',
+    title: 'Multi-stage Build',
+    summary: 'Construire leger en separant build et runtime.',
+    description:
+        'Les Dockerfiles multi-stage compilent dans une etape puis copient seulement le necessaire dans une image finale plus petite.',
+    keyPoints: <String>[
+      'Reduit la taille d image.',
+      'Diminue la surface d attaque.',
+      'Accellere pulls/deploiements.',
     ],
     beginnerAnalogy:
-        'Le Dockerfile est la fiche technique de fabrication de ton image.',
-    whenToUse:
-        'Tu ecris un Dockerfile pour construire une image personnalisee de ton application.',
+        'Comme cuisiner en cuisine complete puis servir dans une assiette epuree.',
+    whenToUse: 'Pour optimiser performance et securite en production.',
+  ),
+  DockerConcept(
+    id: 'healthcheck',
+    title: 'Healthcheck',
+    summary: 'Verifier automatiquement la sante du service.',
+    description:
+        'Un healthcheck execute une commande periodique pour savoir si le container est vraiment operationnel.',
+    keyPoints: <String>[
+      'Etat healthy/unhealthy.',
+      'Aide a detecter les pannes silencieuses.',
+      'Utile avec Compose et orchestration.',
+    ],
+    beginnerAnalogy:
+        'Comme prendre le pouls regulierement d un service applicatif.',
+    whenToUse: 'Des que tu veux du monitoring minimal fiable.',
+  ),
+  DockerConcept(
+    id: 'resource_limits',
+    title: 'Limites CPU/RAM',
+    summary: 'Controler la consommation de ressources.',
+    description:
+        'Docker permet de fixer des limites memoire/CPU pour eviter qu un service monopolise la machine.',
+    keyPoints: <String>[
+      'Exemples: --memory, --cpus.',
+      'Stabilise un poste de dev ou serveur partage.',
+      'Aide a reproduire un contexte prod.',
+    ],
+    beginnerAnalogy: 'Mettre un budget de ressources a chaque container.',
+    whenToUse: 'Quand plusieurs services tournent en parallele.',
+  ),
+  DockerConcept(
+    id: 'security_basics',
+    title: 'Securite de base',
+    summary: 'Bonnes pratiques minimales en conteneurisation.',
+    description:
+        'Executer en utilisateur non-root, limiter privileges et eviter les secrets en clair sont des fondamentaux Docker.',
+    keyPoints: <String>[
+      'USER non-root dans Dockerfile.',
+      'Images officielles/minimales.',
+      'Secrets hors image.',
+    ],
+    beginnerAnalogy: 'Comme fermer les portes meme dans un petit immeuble.',
+    whenToUse: 'Toujours, surtout avant mise en production.',
   ),
   DockerConcept(
     id: 'compose',
     title: 'Docker Compose',
-    summary: 'Orchestration locale multi-services avec un fichier YAML.',
+    summary: 'Orchestration locale multi-services en YAML.',
     description:
-        'Docker Compose permet de définir et démarrer plusieurs services ensemble (app, db, redis...) avec une seule commande.',
+        'Compose decrit et demarre plusieurs services ensemble (app, db, cache) avec une seule commande.',
     keyPoints: <String>[
-      'Configuration centralisée dans docker-compose.yml.',
-      'Lancement avec docker compose up.',
-      'Idéal pour environnements de dev.',
+      'Centralise dans docker-compose.yml.',
+      'Commandes up/down/logs/ps.',
+      'Parfait pour dev et tests integration.',
     ],
-    beginnerAnalogy:
-        'Compose est un chef d orchestre qui demarre plusieurs instruments ensemble.',
-    whenToUse:
-        'Utilise Compose quand ton projet a plusieurs services (app + db + cache).',
+    beginnerAnalogy: 'Chef d orchestre pour demarrer tout un stack.',
+    whenToUse: 'Quand ton projet depasse un seul container.',
+  ),
+  DockerConcept(
+    id: 'compose_profiles',
+    title: 'Compose Profiles',
+    summary: 'Activer des services optionnels selon le contexte.',
+    description:
+        'Les profiles Compose permettent de lancer seulement certains services (ex: observabilite en local).',
+    keyPoints: <String>[
+      'Active avec --profile.',
+      'Evite de surcharger l environnement.',
+      'Facilite les variantes dev/test/demo.',
+    ],
+    beginnerAnalogy: 'Comme des presets differents pour un meme projet.',
+    whenToUse: 'Quand tu veux des stacks modulaires selon besoins.',
   ),
 ];

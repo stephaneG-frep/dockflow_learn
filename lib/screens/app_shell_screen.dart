@@ -106,124 +106,132 @@ class _AppShellScreenState extends State<AppShellScreen> {
         return Scaffold(
           appBar: AppBar(title: Text(_titles[_currentIndex])),
           drawer: Drawer(
-            child: Column(
-              children: <Widget>[
-                DrawerHeader(
-                  margin: EdgeInsets.zero,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'DockFlow Learn',
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        'Application complete pour apprendre Docker de zero a autonome.',
-                      ),
-                      const Spacer(),
-                      Text(
-                        'Concepts ${progress.completedConceptIds.length}/${mockDockerConcepts.length} • Defis ${progress.completedChallengeIds.length}/${mockPracticeChallenges.length} • Quiz max ${progress.bestQuizScore}/${mockQuizQuestions.length} • Modules ${progress.completedLearningModuleIds.length}/${mockLearningModules.length}',
-                      ),
-                    ],
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'DockFlow Learn',
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Application complete pour apprendre Docker de zero a autonome.',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Concepts ${progress.completedConceptIds.length}/${mockDockerConcepts.length} • Defis ${progress.completedChallengeIds.length}/${mockPracticeChallenges.length} • Quiz ${progress.bestQuizScore}/${mockQuizQuestions.length} • Modules ${progress.completedLearningModuleIds.length}/${mockLearningModules.length}',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: <Widget>[
-                      _DrawerNavTile(
-                        title: 'Accueil',
-                        icon: Icons.home_rounded,
-                        selected: _currentIndex == 0,
-                        onTap: () => _goToScreen(0),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Mode d emploi',
-                        icon: Icons.school_rounded,
-                        selected: _currentIndex == 1,
-                        onTap: () => _goToScreen(1),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Objectif quotidien',
-                        icon: Icons.today_rounded,
-                        selected: _currentIndex == 2,
-                        onTap: () => _goToScreen(2),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Parcours recommande',
-                        icon: Icons.route_rounded,
-                        selected: _currentIndex == 3,
-                        onTap: () => _goToScreen(3),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Favoris',
-                        icon: Icons.favorite_rounded,
-                        selected: _currentIndex == 4,
-                        onTap: () => _goToScreen(4),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Concepts Docker',
-                        icon: Icons.layers_rounded,
-                        selected: _currentIndex == 5,
-                        onTap: () => _goToScreen(5),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Commandes Docker',
-                        icon: Icons.terminal_rounded,
-                        selected: _currentIndex == 6,
-                        onTap: () => _goToScreen(6),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Quiz',
-                        icon: Icons.quiz_rounded,
-                        selected: _currentIndex == 7,
-                        onTap: () => _goToScreen(7),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Defis pratiques',
-                        icon: Icons.flag_rounded,
-                        selected: _currentIndex == 8,
-                        onTap: () => _goToScreen(8),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Glossaire',
-                        icon: Icons.menu_book_rounded,
-                        selected: _currentIndex == 9,
-                        onTap: () => _goToScreen(9),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Recherche globale',
-                        icon: Icons.search_rounded,
-                        selected: _currentIndex == 10,
-                        onTap: () => _goToScreen(10),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Statistiques',
-                        icon: Icons.bar_chart_rounded,
-                        selected: _currentIndex == 11,
-                        onTap: () => _goToScreen(11),
-                      ),
-                      _DrawerNavTile(
-                        title: 'Parametres',
-                        icon: Icons.settings_rounded,
-                        selected: _currentIndex == 12,
-                        onTap: () => _goToScreen(12),
-                      ),
-                      const Divider(height: 24),
-                      SwitchListTile.adaptive(
-                        title: const Text('Mode sombre'),
-                        subtitle: const Text('Sauvegarde automatique.'),
-                        value: progress.isDarkMode,
-                        onChanged: (value) =>
-                            widget.progressService.setDarkMode(value),
-                        secondary: const Icon(Icons.dark_mode_rounded),
-                      ),
-                    ],
+                  const Divider(height: 1),
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.only(top: 8),
+                      children: <Widget>[
+                        _DrawerNavTile(
+                          title: 'Accueil',
+                          icon: Icons.home_rounded,
+                          selected: _currentIndex == 0,
+                          onTap: () => _goToScreen(0),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Mode d emploi',
+                          icon: Icons.school_rounded,
+                          selected: _currentIndex == 1,
+                          onTap: () => _goToScreen(1),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Objectif quotidien',
+                          icon: Icons.today_rounded,
+                          selected: _currentIndex == 2,
+                          onTap: () => _goToScreen(2),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Parcours recommande',
+                          icon: Icons.route_rounded,
+                          selected: _currentIndex == 3,
+                          onTap: () => _goToScreen(3),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Favoris',
+                          icon: Icons.favorite_rounded,
+                          selected: _currentIndex == 4,
+                          onTap: () => _goToScreen(4),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Concepts Docker',
+                          icon: Icons.layers_rounded,
+                          selected: _currentIndex == 5,
+                          onTap: () => _goToScreen(5),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Commandes Docker',
+                          icon: Icons.terminal_rounded,
+                          selected: _currentIndex == 6,
+                          onTap: () => _goToScreen(6),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Quiz',
+                          icon: Icons.quiz_rounded,
+                          selected: _currentIndex == 7,
+                          onTap: () => _goToScreen(7),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Defis pratiques',
+                          icon: Icons.flag_rounded,
+                          selected: _currentIndex == 8,
+                          onTap: () => _goToScreen(8),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Glossaire',
+                          icon: Icons.menu_book_rounded,
+                          selected: _currentIndex == 9,
+                          onTap: () => _goToScreen(9),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Recherche globale',
+                          icon: Icons.search_rounded,
+                          selected: _currentIndex == 10,
+                          onTap: () => _goToScreen(10),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Statistiques',
+                          icon: Icons.bar_chart_rounded,
+                          selected: _currentIndex == 11,
+                          onTap: () => _goToScreen(11),
+                        ),
+                        _DrawerNavTile(
+                          title: 'Parametres',
+                          icon: Icons.settings_rounded,
+                          selected: _currentIndex == 12,
+                          onTap: () => _goToScreen(12),
+                        ),
+                        const Divider(height: 24),
+                        SwitchListTile.adaptive(
+                          title: const Text('Mode sombre'),
+                          subtitle: const Text('Sauvegarde automatique.'),
+                          value: progress.isDarkMode,
+                          onChanged: (value) =>
+                              widget.progressService.setDarkMode(value),
+                          secondary: const Icon(Icons.dark_mode_rounded),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           body: AnimatedSwitcher(
