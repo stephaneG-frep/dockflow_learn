@@ -34,7 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
           title: item.title,
           subtitle: item.summary,
           type: 'Concept',
-          onTap: () => widget.onNavigateToScreen(3),
+          onTap: () => widget.onNavigateToScreen(5),
         ),
       ),
       ...mockDockerCommands.map(
@@ -57,7 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
           title: item.title,
           subtitle: item.goal,
           type: 'Defi',
-          onTap: () => widget.onNavigateToScreen(6),
+          onTap: () => widget.onNavigateToScreen(8),
         ),
       ),
       ...mockGlossaryTerms.map(
@@ -65,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
           title: item.term,
           subtitle: item.definition,
           type: 'Glossaire',
-          onTap: () => widget.onNavigateToScreen(7),
+          onTap: () => widget.onNavigateToScreen(9),
         ),
       ),
       ...mockQuizQuestions.map(
@@ -73,7 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
           title: item.question,
           subtitle: item.explanation,
           type: 'Quiz',
-          onTap: () => widget.onNavigateToScreen(5),
+          onTap: () => widget.onNavigateToScreen(7),
         ),
       ),
     ];

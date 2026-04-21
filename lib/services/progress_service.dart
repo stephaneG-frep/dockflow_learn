@@ -11,6 +11,12 @@ class ProgressService {
       ValueNotifier<UserProgress>(UserProgress.initial());
 
   late final Box<dynamic> _box;
+  String get _todayKey {
+    final now = DateTime.now();
+    final month = now.month.toString().padLeft(2, '0');
+    final day = now.day.toString().padLeft(2, '0');
+    return '${now.year}-$month-$day';
+  }
 
   Future<void> init() async {
     _box = await Hive.openBox<dynamic>(_boxName);
@@ -25,22 +31,43 @@ class ProgressService {
   }
 
   Future<void> markConceptCompleted(String conceptId) async {
-    final updated = progressNotifier.value.withCompletedConcept(conceptId);
+    final current = progressNotifier.value;
+    if (current.completedConceptIds.contains(conceptId)) {
+      return;
+    }
+    final updated = current
+        .withCompletedConcept(conceptId)
+        .withRegisteredAction(_todayKey);
     await _save(updated);
   }
 
   Future<void> markCommandViewed(String commandId) async {
-    final updated = progressNotifier.value.withViewedCommand(commandId);
+    final current = progressNotifier.value;
+    if (current.viewedCommandIds.contains(commandId)) {
+      return;
+    }
+    final updated = current
+        .withViewedCommand(commandId)
+        .withRegisteredAction(_todayKey);
     await _save(updated);
   }
 
   Future<void> toggleChallengeCompleted(String challengeId) async {
-    final updated = progressNotifier.value.withToggledChallenge(challengeId);
+    final current = progressNotifier.value;
+    final bool wasCompleted = current.completedChallengeIds.contains(
+      challengeId,
+    );
+    var updated = current.withToggledChallenge(challengeId);
+    if (!wasCompleted) {
+      updated = updated.withRegisteredAction(_todayKey);
+    }
     await _save(updated);
   }
 
   Future<void> registerQuizScore(int score) async {
-    final updated = progressNotifier.value.withQuizScore(score);
+    final updated = progressNotifier.value
+        .withQuizScore(score)
+        .withRegisteredAction(_todayKey);
     await _save(updated);
   }
 
@@ -74,7 +101,24 @@ class ProgressService {
   }
 
   Future<void> toggleLearningModuleCompleted(String moduleId) async {
-    final updated = progressNotifier.value.withToggledLearningModule(moduleId);
+    final current = progressNotifier.value;
+    final bool wasCompleted = current.completedLearningModuleIds.contains(
+      moduleId,
+    );
+    var updated = current.withToggledLearningModule(moduleId);
+    if (!wasCompleted) {
+      updated = updated.withRegisteredAction(_todayKey);
+    }
+    await _save(updated);
+  }
+
+  Future<void> setDailyGoalTarget(int target) async {
+    final updated = progressNotifier.value.withDailyGoalTarget(target);
+    await _save(updated);
+  }
+
+  Future<void> setRemindersEnabled(bool enabled) async {
+    final updated = progressNotifier.value.withRemindersEnabled(enabled);
     await _save(updated);
   }
 

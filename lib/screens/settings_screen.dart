@@ -70,6 +70,16 @@ class SettingsScreen extends StatelessWidget {
                     value: progress.isDarkMode,
                     onChanged: (value) => progressService.setDarkMode(value),
                   ),
+                  SwitchListTile.adaptive(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Rappel interne quotidien'),
+                    subtitle: const Text(
+                      'Affiche des rappels dans l app si objectif non atteint.',
+                    ),
+                    value: progress.remindersEnabled,
+                    onChanged: (value) =>
+                        progressService.setRemindersEnabled(value),
+                  ),
                 ],
               ),
             ),

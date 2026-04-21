@@ -10,6 +10,9 @@ class UserProgress {
     required this.favoriteConceptIds,
     required this.favoriteCommandIds,
     required this.completedLearningModuleIds,
+    required this.dailyGoalTarget,
+    required this.remindersEnabled,
+    required this.dailyActivityCounts,
   });
 
   factory UserProgress.initial() {
@@ -24,10 +27,17 @@ class UserProgress {
       favoriteConceptIds: <String>{},
       favoriteCommandIds: <String>{},
       completedLearningModuleIds: <String>{},
+      dailyGoalTarget: 3,
+      remindersEnabled: true,
+      dailyActivityCounts: <String, int>{},
     );
   }
 
   factory UserProgress.fromMap(Map<String, dynamic> map) {
+    final Map<String, dynamic> rawDailyCounts = Map<String, dynamic>.from(
+      map['dailyActivityCounts'] ?? <String, dynamic>{},
+    );
+
     return UserProgress(
       completedConceptIds: Set<String>.from(
         map['completedConceptIds'] ?? <String>[],
@@ -49,6 +59,11 @@ class UserProgress {
       completedLearningModuleIds: Set<String>.from(
         map['completedLearningModuleIds'] ?? <String>[],
       ),
+      dailyGoalTarget: map['dailyGoalTarget'] as int? ?? 3,
+      remindersEnabled: map['remindersEnabled'] as bool? ?? true,
+      dailyActivityCounts: rawDailyCounts.map(
+        (key, value) => MapEntry(key, (value as num).toInt()),
+      ),
     );
   }
 
@@ -62,6 +77,9 @@ class UserProgress {
   final Set<String> favoriteConceptIds;
   final Set<String> favoriteCommandIds;
   final Set<String> completedLearningModuleIds;
+  final int dailyGoalTarget;
+  final bool remindersEnabled;
+  final Map<String, int> dailyActivityCounts;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -75,6 +93,9 @@ class UserProgress {
       'favoriteConceptIds': favoriteConceptIds.toList(),
       'favoriteCommandIds': favoriteCommandIds.toList(),
       'completedLearningModuleIds': completedLearningModuleIds.toList(),
+      'dailyGoalTarget': dailyGoalTarget,
+      'remindersEnabled': remindersEnabled,
+      'dailyActivityCounts': dailyActivityCounts,
     };
   }
 
@@ -89,6 +110,9 @@ class UserProgress {
     Set<String>? favoriteConceptIds,
     Set<String>? favoriteCommandIds,
     Set<String>? completedLearningModuleIds,
+    int? dailyGoalTarget,
+    bool? remindersEnabled,
+    Map<String, int>? dailyActivityCounts,
   }) {
     return UserProgress(
       completedConceptIds: completedConceptIds ?? this.completedConceptIds,
@@ -103,6 +127,9 @@ class UserProgress {
       favoriteCommandIds: favoriteCommandIds ?? this.favoriteCommandIds,
       completedLearningModuleIds:
           completedLearningModuleIds ?? this.completedLearningModuleIds,
+      dailyGoalTarget: dailyGoalTarget ?? this.dailyGoalTarget,
+      remindersEnabled: remindersEnabled ?? this.remindersEnabled,
+      dailyActivityCounts: dailyActivityCounts ?? this.dailyActivityCounts,
     );
   }
 
@@ -175,6 +202,20 @@ class UserProgress {
     return copyWith(completedLearningModuleIds: updated);
   }
 
+  UserProgress withDailyGoalTarget(int target) {
+    return copyWith(dailyGoalTarget: target.clamp(1, 20));
+  }
+
+  UserProgress withRemindersEnabled(bool enabled) {
+    return copyWith(remindersEnabled: enabled);
+  }
+
+  UserProgress withRegisteredAction(String dayKey) {
+    final updated = <String, int>{...dailyActivityCounts};
+    updated[dayKey] = (updated[dayKey] ?? 0) + 1;
+    return copyWith(dailyActivityCounts: updated);
+  }
+
   UserProgress resetLearningData({required bool keepDarkMode}) {
     return UserProgress(
       completedConceptIds: <String>{},
@@ -187,6 +228,9 @@ class UserProgress {
       favoriteConceptIds: <String>{},
       favoriteCommandIds: <String>{},
       completedLearningModuleIds: <String>{},
+      dailyGoalTarget: dailyGoalTarget,
+      remindersEnabled: remindersEnabled,
+      dailyActivityCounts: <String, int>{},
     );
   }
 }

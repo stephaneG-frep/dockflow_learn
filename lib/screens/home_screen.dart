@@ -89,59 +89,73 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             MenuTileCard(
+              title: 'Objectif quotidien',
+              subtitle: 'Objectif/jour + rappel interne.',
+              icon: Icons.today_rounded,
+              onTap: () => onNavigateToTab(2),
+            ),
+            const SizedBox(height: 10),
+            MenuTileCard(
               title: 'Parcours recommande',
               subtitle: 'Checklist complete, libre et non verrouillee.',
               icon: Icons.route_rounded,
-              onTap: () => onNavigateToTab(2),
+              onTap: () => onNavigateToTab(3),
+            ),
+            const SizedBox(height: 10),
+            MenuTileCard(
+              title: 'Favoris',
+              subtitle: 'Retrouve tes concepts et commandes favoris.',
+              icon: Icons.favorite_rounded,
+              onTap: () => onNavigateToTab(4),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Concepts Docker',
               subtitle: 'Images, containers, volumes, reseaux...',
               icon: Icons.layers_rounded,
-              onTap: () => onNavigateToTab(3),
+              onTap: () => onNavigateToTab(5),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Commandes Docker',
               subtitle: 'Trouve rapidement la bonne commande.',
               icon: Icons.terminal_rounded,
-              onTap: () => onNavigateToTab(4),
+              onTap: () => onNavigateToTab(6),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Quiz',
               subtitle: 'Teste ta comprehension avec un score final.',
               icon: Icons.quiz_rounded,
-              onTap: () => onNavigateToTab(5),
+              onTap: () => onNavigateToTab(7),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Defis pratiques',
               subtitle: 'Mets les mains dans le terminal.',
               icon: Icons.flag_rounded,
-              onTap: () => onNavigateToTab(6),
+              onTap: () => onNavigateToTab(8),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Glossaire',
               subtitle: 'Retrouve les termes techniques rapidement.',
               icon: Icons.menu_book_rounded,
-              onTap: () => onNavigateToTab(7),
+              onTap: () => onNavigateToTab(9),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Recherche globale',
               subtitle: 'Trouve un terme dans toute l app.',
               icon: Icons.search_rounded,
-              onTap: () => onNavigateToTab(8),
+              onTap: () => onNavigateToTab(10),
             ),
             const SizedBox(height: 10),
             MenuTileCard(
               title: 'Statistiques',
               subtitle: 'Voir progression et badges.',
               icon: Icons.bar_chart_rounded,
-              onTap: () => onNavigateToTab(9),
+              onTap: () => onNavigateToTab(11),
             ),
             const SizedBox(height: 18),
             Text(
@@ -174,9 +188,30 @@ class HomeScreen extends StatelessWidget {
                   label: 'Quiz termines',
                   value: '${progress.completedQuizCount}',
                 ),
+                ProgressStatChip(
+                  label: 'Favoris',
+                  value:
+                      '${progress.favoriteConceptIds.length + progress.favoriteCommandIds.length}',
+                ),
               ],
             ),
             const SizedBox(height: 16),
+            if (progress.remindersEnabled)
+              AppCard(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const Icon(Icons.notifications_active_rounded),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Rappel interne: objectif quotidien ${progress.dailyGoalTarget} actions. Ouvre "Objectif quotidien" pour suivre ta progression.',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (progress.remindersEnabled) const SizedBox(height: 12),
             const AppCard(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,

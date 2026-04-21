@@ -17,7 +17,7 @@ const List<LearningModule> mockLearningModules = <LearningModule>[
     title: '2. Concepts essentiels',
     description: 'Images, containers, volumes, networks, Dockerfile, Compose.',
     estimatedMinutes: 15,
-    targetScreenIndex: 3,
+    targetScreenIndex: 5,
     outcomes: <String>[
       'Savoir nommer les briques principales.',
       'Savoir quand utiliser chaque concept.',
@@ -28,7 +28,7 @@ const List<LearningModule> mockLearningModules = <LearningModule>[
     title: '3. Commandes de base',
     description: 'Revoir les commandes incontournables du quotidien.',
     estimatedMinutes: 12,
-    targetScreenIndex: 4,
+    targetScreenIndex: 6,
     outcomes: <String>[
       'Lister, lancer, inspecter et depanner un container.',
       'Identifier les commandes Compose utiles.',
@@ -39,7 +39,7 @@ const List<LearningModule> mockLearningModules = <LearningModule>[
     title: '4. Verification rapide',
     description: 'Passer le quiz pour valider les acquis.',
     estimatedMinutes: 6,
-    targetScreenIndex: 5,
+    targetScreenIndex: 7,
     outcomes: <String>[
       'Mesurer son niveau actuel.',
       'Revoir les explications en cas d erreur.',
@@ -50,7 +50,7 @@ const List<LearningModule> mockLearningModules = <LearningModule>[
     title: '5. Pratique terminal',
     description: 'Executer des mini defis pour ancrer les reflexes.',
     estimatedMinutes: 20,
-    targetScreenIndex: 6,
+    targetScreenIndex: 8,
     outcomes: <String>[
       'Passer de la theorie a la pratique.',
       'Gagner en autonomie sur le terminal.',
@@ -61,7 +61,7 @@ const List<LearningModule> mockLearningModules = <LearningModule>[
     title: '6. Revision continue',
     description: 'Utiliser le glossaire comme support anti-blocage.',
     estimatedMinutes: 5,
-    targetScreenIndex: 7,
+    targetScreenIndex: 9,
     outcomes: <String>[
       'Retrouver rapidement les definitions.',
       'Renforcer le vocabulaire technique.',

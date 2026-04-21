@@ -9,6 +9,8 @@ import '../services/progress_service.dart';
 import 'challenges_screen.dart';
 import 'commands_screen.dart';
 import 'concepts_screen.dart';
+import 'daily_learning_screen.dart';
+import 'favorites_screen.dart';
 import 'glossary_screen.dart';
 import 'guide_screen.dart';
 import 'home_screen.dart';
@@ -35,7 +37,9 @@ class _AppShellScreenState extends State<AppShellScreen> {
   static const List<String> _titles = <String>[
     'DockFlow Learn',
     'Mode d emploi',
+    'Quotidien',
     'Parcours',
+    'Favoris',
     'Concepts Docker',
     'Commandes Docker',
     'Quiz Docker',
@@ -55,7 +59,15 @@ class _AppShellScreenState extends State<AppShellScreen> {
         onNavigateToTab: _goToScreen,
       ),
       const GuideScreen(),
+      DailyLearningScreen(
+        progressService: widget.progressService,
+        onNavigateToScreen: _goToScreen,
+      ),
       LearningPathScreen(
+        progressService: widget.progressService,
+        onNavigateToScreen: _goToScreen,
+      ),
+      FavoritesScreen(
         progressService: widget.progressService,
         onNavigateToScreen: _goToScreen,
       ),
@@ -134,58 +146,70 @@ class _AppShellScreenState extends State<AppShellScreen> {
                         onTap: () => _goToScreen(1),
                       ),
                       _DrawerNavTile(
-                        title: 'Parcours recommande',
-                        icon: Icons.route_rounded,
+                        title: 'Objectif quotidien',
+                        icon: Icons.today_rounded,
                         selected: _currentIndex == 2,
                         onTap: () => _goToScreen(2),
                       ),
                       _DrawerNavTile(
-                        title: 'Concepts Docker',
-                        icon: Icons.layers_rounded,
+                        title: 'Parcours recommande',
+                        icon: Icons.route_rounded,
                         selected: _currentIndex == 3,
                         onTap: () => _goToScreen(3),
                       ),
                       _DrawerNavTile(
-                        title: 'Commandes Docker',
-                        icon: Icons.terminal_rounded,
+                        title: 'Favoris',
+                        icon: Icons.favorite_rounded,
                         selected: _currentIndex == 4,
                         onTap: () => _goToScreen(4),
                       ),
                       _DrawerNavTile(
-                        title: 'Quiz',
-                        icon: Icons.quiz_rounded,
+                        title: 'Concepts Docker',
+                        icon: Icons.layers_rounded,
                         selected: _currentIndex == 5,
                         onTap: () => _goToScreen(5),
                       ),
                       _DrawerNavTile(
-                        title: 'Defis pratiques',
-                        icon: Icons.flag_rounded,
+                        title: 'Commandes Docker',
+                        icon: Icons.terminal_rounded,
                         selected: _currentIndex == 6,
                         onTap: () => _goToScreen(6),
                       ),
                       _DrawerNavTile(
-                        title: 'Glossaire',
-                        icon: Icons.menu_book_rounded,
+                        title: 'Quiz',
+                        icon: Icons.quiz_rounded,
                         selected: _currentIndex == 7,
                         onTap: () => _goToScreen(7),
                       ),
                       _DrawerNavTile(
-                        title: 'Recherche globale',
-                        icon: Icons.search_rounded,
+                        title: 'Defis pratiques',
+                        icon: Icons.flag_rounded,
                         selected: _currentIndex == 8,
                         onTap: () => _goToScreen(8),
                       ),
                       _DrawerNavTile(
-                        title: 'Statistiques',
-                        icon: Icons.bar_chart_rounded,
+                        title: 'Glossaire',
+                        icon: Icons.menu_book_rounded,
                         selected: _currentIndex == 9,
                         onTap: () => _goToScreen(9),
                       ),
                       _DrawerNavTile(
-                        title: 'Parametres',
-                        icon: Icons.settings_rounded,
+                        title: 'Recherche globale',
+                        icon: Icons.search_rounded,
                         selected: _currentIndex == 10,
                         onTap: () => _goToScreen(10),
+                      ),
+                      _DrawerNavTile(
+                        title: 'Statistiques',
+                        icon: Icons.bar_chart_rounded,
+                        selected: _currentIndex == 11,
+                        onTap: () => _goToScreen(11),
+                      ),
+                      _DrawerNavTile(
+                        title: 'Parametres',
+                        icon: Icons.settings_rounded,
+                        selected: _currentIndex == 12,
+                        onTap: () => _goToScreen(12),
                       ),
                       const Divider(height: 24),
                       SwitchListTile.adaptive(
