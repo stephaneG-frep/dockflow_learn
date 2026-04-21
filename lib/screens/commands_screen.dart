@@ -35,9 +35,18 @@ class CommandsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
+            AppCard(
+              child: Text(
+                'Favoris commandes: ${progress.favoriteCommandIds.length}',
+              ),
+            ),
+            const SizedBox(height: 12),
             ...mockDockerCommands.map((command) {
               final scheme = Theme.of(context).colorScheme;
               final hasViewed = progress.viewedCommandIds.contains(command.id);
+              final isFavorite = progress.favoriteCommandIds.contains(
+                command.id,
+              );
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
@@ -52,6 +61,21 @@ class CommandsScreen extends StatelessWidget {
                               command.command,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: isFavorite
+                                ? 'Retirer des favoris'
+                                : 'Ajouter aux favoris',
+                            onPressed: () => progressService
+                                .toggleFavoriteCommand(command.id),
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.star_rounded
+                                  : Icons.star_border_rounded,
+                              color: isFavorite
+                                  ? const Color(0xFFD97706)
+                                  : null,
                             ),
                           ),
                           Container(

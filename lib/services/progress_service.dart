@@ -49,6 +49,42 @@ class ProgressService {
     await _save(updated);
   }
 
+  Future<void> completeOnboarding() async {
+    final updated = progressNotifier.value.withOnboardingCompleted();
+    await _save(updated);
+  }
+
+  Future<void> setOnboardingSeen(bool seen) async {
+    final updated = progressNotifier.value.withOnboardingState(seen);
+    await _save(updated);
+  }
+
+  Future<void> toggleFavoriteConcept(String conceptId) async {
+    final updated = progressNotifier.value.withToggledFavoriteConcept(
+      conceptId,
+    );
+    await _save(updated);
+  }
+
+  Future<void> toggleFavoriteCommand(String commandId) async {
+    final updated = progressNotifier.value.withToggledFavoriteCommand(
+      commandId,
+    );
+    await _save(updated);
+  }
+
+  Future<void> toggleLearningModuleCompleted(String moduleId) async {
+    final updated = progressNotifier.value.withToggledLearningModule(moduleId);
+    await _save(updated);
+  }
+
+  Future<void> resetLearningProgress({bool keepDarkMode = true}) async {
+    final updated = progressNotifier.value.resetLearningData(
+      keepDarkMode: keepDarkMode,
+    );
+    await _save(updated);
+  }
+
   Future<void> _save(UserProgress progress) async {
     progressNotifier.value = progress;
     await _box.put(_key, progress.toMap());

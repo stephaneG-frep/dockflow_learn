@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'models/user_progress.dart';
 import 'screens/app_shell_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'services/progress_service.dart';
 import 'theme/app_theme.dart';
 
@@ -21,7 +22,9 @@ class DockFlowLearnApp extends StatelessWidget {
           theme: AppTheme.light(),
           darkTheme: AppTheme.dark(),
           themeMode: progress.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          home: AppShellScreen(progressService: progressService),
+          home: progress.hasSeenOnboarding
+              ? AppShellScreen(progressService: progressService)
+              : OnboardingScreen(progressService: progressService),
         );
       },
     );

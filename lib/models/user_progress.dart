@@ -6,6 +6,10 @@ class UserProgress {
     required this.bestQuizScore,
     required this.completedQuizCount,
     required this.isDarkMode,
+    required this.hasSeenOnboarding,
+    required this.favoriteConceptIds,
+    required this.favoriteCommandIds,
+    required this.completedLearningModuleIds,
   });
 
   factory UserProgress.initial() {
@@ -16,6 +20,10 @@ class UserProgress {
       bestQuizScore: 0,
       completedQuizCount: 0,
       isDarkMode: false,
+      hasSeenOnboarding: false,
+      favoriteConceptIds: <String>{},
+      favoriteCommandIds: <String>{},
+      completedLearningModuleIds: <String>{},
     );
   }
 
@@ -31,6 +39,16 @@ class UserProgress {
       bestQuizScore: map['bestQuizScore'] as int? ?? 0,
       completedQuizCount: map['completedQuizCount'] as int? ?? 0,
       isDarkMode: map['isDarkMode'] as bool? ?? false,
+      hasSeenOnboarding: map['hasSeenOnboarding'] as bool? ?? false,
+      favoriteConceptIds: Set<String>.from(
+        map['favoriteConceptIds'] ?? <String>[],
+      ),
+      favoriteCommandIds: Set<String>.from(
+        map['favoriteCommandIds'] ?? <String>[],
+      ),
+      completedLearningModuleIds: Set<String>.from(
+        map['completedLearningModuleIds'] ?? <String>[],
+      ),
     );
   }
 
@@ -40,6 +58,10 @@ class UserProgress {
   final int bestQuizScore;
   final int completedQuizCount;
   final bool isDarkMode;
+  final bool hasSeenOnboarding;
+  final Set<String> favoriteConceptIds;
+  final Set<String> favoriteCommandIds;
+  final Set<String> completedLearningModuleIds;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -49,6 +71,10 @@ class UserProgress {
       'bestQuizScore': bestQuizScore,
       'completedQuizCount': completedQuizCount,
       'isDarkMode': isDarkMode,
+      'hasSeenOnboarding': hasSeenOnboarding,
+      'favoriteConceptIds': favoriteConceptIds.toList(),
+      'favoriteCommandIds': favoriteCommandIds.toList(),
+      'completedLearningModuleIds': completedLearningModuleIds.toList(),
     };
   }
 
@@ -59,6 +85,10 @@ class UserProgress {
     int? bestQuizScore,
     int? completedQuizCount,
     bool? isDarkMode,
+    bool? hasSeenOnboarding,
+    Set<String>? favoriteConceptIds,
+    Set<String>? favoriteCommandIds,
+    Set<String>? completedLearningModuleIds,
   }) {
     return UserProgress(
       completedConceptIds: completedConceptIds ?? this.completedConceptIds,
@@ -68,6 +98,11 @@ class UserProgress {
       bestQuizScore: bestQuizScore ?? this.bestQuizScore,
       completedQuizCount: completedQuizCount ?? this.completedQuizCount,
       isDarkMode: isDarkMode ?? this.isDarkMode,
+      hasSeenOnboarding: hasSeenOnboarding ?? this.hasSeenOnboarding,
+      favoriteConceptIds: favoriteConceptIds ?? this.favoriteConceptIds,
+      favoriteCommandIds: favoriteCommandIds ?? this.favoriteCommandIds,
+      completedLearningModuleIds:
+          completedLearningModuleIds ?? this.completedLearningModuleIds,
     );
   }
 
@@ -100,5 +135,58 @@ class UserProgress {
 
   UserProgress withThemeMode(bool enabled) {
     return copyWith(isDarkMode: enabled);
+  }
+
+  UserProgress withOnboardingCompleted() {
+    return copyWith(hasSeenOnboarding: true);
+  }
+
+  UserProgress withOnboardingState(bool seen) {
+    return copyWith(hasSeenOnboarding: seen);
+  }
+
+  UserProgress withToggledFavoriteConcept(String conceptId) {
+    final updated = <String>{...favoriteConceptIds};
+    if (updated.contains(conceptId)) {
+      updated.remove(conceptId);
+    } else {
+      updated.add(conceptId);
+    }
+    return copyWith(favoriteConceptIds: updated);
+  }
+
+  UserProgress withToggledFavoriteCommand(String commandId) {
+    final updated = <String>{...favoriteCommandIds};
+    if (updated.contains(commandId)) {
+      updated.remove(commandId);
+    } else {
+      updated.add(commandId);
+    }
+    return copyWith(favoriteCommandIds: updated);
+  }
+
+  UserProgress withToggledLearningModule(String moduleId) {
+    final updated = <String>{...completedLearningModuleIds};
+    if (updated.contains(moduleId)) {
+      updated.remove(moduleId);
+    } else {
+      updated.add(moduleId);
+    }
+    return copyWith(completedLearningModuleIds: updated);
+  }
+
+  UserProgress resetLearningData({required bool keepDarkMode}) {
+    return UserProgress(
+      completedConceptIds: <String>{},
+      viewedCommandIds: <String>{},
+      completedChallengeIds: <String>{},
+      bestQuizScore: 0,
+      completedQuizCount: 0,
+      isDarkMode: keepDarkMode ? isDarkMode : false,
+      hasSeenOnboarding: hasSeenOnboarding,
+      favoriteConceptIds: <String>{},
+      favoriteCommandIds: <String>{},
+      completedLearningModuleIds: <String>{},
+    );
   }
 }

@@ -34,8 +34,17 @@ class ConceptsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
+            AppCard(
+              child: Text(
+                'Favoris concepts: ${progress.favoriteConceptIds.length}',
+              ),
+            ),
+            const SizedBox(height: 12),
             ...mockDockerConcepts.map((concept) {
               final isCompleted = progress.completedConceptIds.contains(
+                concept.id,
+              );
+              final isFavorite = progress.favoriteConceptIds.contains(
                 concept.id,
               );
 
@@ -52,6 +61,21 @@ class ConceptsScreen extends StatelessWidget {
                               concept.title,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          IconButton(
+                            tooltip: isFavorite
+                                ? 'Retirer des favoris'
+                                : 'Ajouter aux favoris',
+                            onPressed: () => progressService
+                                .toggleFavoriteConcept(concept.id),
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_border_rounded,
+                              color: isFavorite
+                                  ? const Color(0xFFE11D48)
+                                  : null,
                             ),
                           ),
                           if (isCompleted)
